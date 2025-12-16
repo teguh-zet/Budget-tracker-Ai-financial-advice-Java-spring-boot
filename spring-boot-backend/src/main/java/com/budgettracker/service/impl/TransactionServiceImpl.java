@@ -42,14 +42,33 @@ public class TransactionServiceImpl implements TransactionService {
     
     @Override
     public PagedResponse<TransactionResponse> getAllByUser(
-            Integer userId, Integer page, Integer limit, String search) {
+            Integer userId, Integer page, Integer limit, String search, String type) {
         
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by("date").descending());
         Page<Transaction> transactionPage;
         
-        if (search != null && !search.trim().isEmpty()) {
+        // Parse type filter
+        Transaction.TransactionType transactionType = null;
+        if (type != null && !type.trim().isEmpty()) {
+            try {
+                transactionType = Transaction.TransactionType.valueOf(type.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new BadRequestException("Type harus 'income' atau 'expense'");
+            }
+        }
+        
+        // Build query based on search and type filters
+        if (search != null && !search.trim().isEmpty() && transactionType != null) {
+            // Both search and type filter
+            transactionPage = transactionRepository.findByUserIdWithSearchAndType(userId, search, transactionType, pageable);
+        } else if (search != null && !search.trim().isEmpty()) {
+            // Only search filter
             transactionPage = transactionRepository.findByUserIdWithSearch(userId, search, pageable);
+        } else if (transactionType != null) {
+            // Only type filter
+            transactionPage = transactionRepository.findByUserIdAndType(userId, transactionType, pageable);
         } else {
+            // No filter
             transactionPage = transactionRepository.findByUserId(userId, pageable);
         }
         

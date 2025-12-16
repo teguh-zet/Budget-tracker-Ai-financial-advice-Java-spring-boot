@@ -29,8 +29,33 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
     @Query("SELECT t FROM Transaction t " +
            "LEFT JOIN FETCH t.category " +
            "LEFT JOIN FETCH t.user " +
+           "WHERE t.user.id = :userId " +
+           "AND (LOWER(t.note) LIKE LOWER(CONCAT('%', :search, '%')) " +
+           "OR LOWER(t.category.name) LIKE LOWER(CONCAT('%', :search, '%'))) " +
+           "AND t.type = :type")
+    Page<Transaction> findByUserIdWithSearchAndType(
+        @Param("userId") Integer userId, 
+        @Param("search") String search,
+        @Param("type") Transaction.TransactionType type,
+        Pageable pageable
+    );
+    
+    @Query("SELECT t FROM Transaction t " +
+           "LEFT JOIN FETCH t.category " +
+           "LEFT JOIN FETCH t.user " +
            "WHERE t.user.id = :userId")
     Page<Transaction> findByUserId(Integer userId, Pageable pageable);
+    
+    @Query("SELECT t FROM Transaction t " +
+           "LEFT JOIN FETCH t.category " +
+           "LEFT JOIN FETCH t.user " +
+           "WHERE t.user.id = :userId " +
+           "AND t.type = :type")
+    Page<Transaction> findByUserIdAndType(
+        @Param("userId") Integer userId,
+        @Param("type") Transaction.TransactionType type,
+        Pageable pageable
+    );
     
     @Query("SELECT t FROM Transaction t " +
            "LEFT JOIN FETCH t.category " +

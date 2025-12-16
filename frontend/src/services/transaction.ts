@@ -2,10 +2,11 @@ import api from "@/api";
 import { handleApiError } from "@/utils/handleApiError";
 import getTokenHeader from "@/utils/getTokenHeader";
 
-export const fetchTransaction = async (page = 1, limit = 10, search = "") => {
+export const fetchTransaction = async (page = 1, limit = 10, search = "", type?: "income" | "expense") => {
     try {
         const params = new URLSearchParams({ page: String(page), limit: String(limit)});
         if(search) params.append("search", search);
+        if(type) params.append("type", type);
 
         const res = await api.get(`/transaction?${params.toString()}`, {
             headers: getTokenHeader(),

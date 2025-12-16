@@ -21,7 +21,7 @@ class TransactionProvider with ChangeNotifier {
   Map<String, dynamic>? get todayExpenseStats => _todayExpenseStats;
   List<dynamic> get monthlyChart => _monthlyChart;
 
-  Future<void> fetchTransactions({int page = 1, int limit = 10, String? search}) async {
+  Future<void> fetchTransactions({int page = 1, int limit = 10, String? search, String? type}) async {
     _isLoading = true;
     _error = null;
     notifyListeners();
@@ -31,6 +31,7 @@ class TransactionProvider with ChangeNotifier {
         page: page,
         limit: limit,
         search: search,
+        type: type,
       );
       _error = null;
     } catch (e) {

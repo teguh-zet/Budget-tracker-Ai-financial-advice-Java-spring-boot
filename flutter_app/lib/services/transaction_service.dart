@@ -9,6 +9,7 @@ class TransactionService {
     int page = 1,
     int limit = 10,
     String? search,
+    String? type,
   }) async {
     try {
       final queryParams = <String, dynamic>{
@@ -17,6 +18,9 @@ class TransactionService {
       };
       if (search != null && search.isNotEmpty) {
         queryParams['search'] = search;
+      }
+      if (type != null && type.isNotEmpty) {
+        queryParams['type'] = type;
       }
 
       final response = await _apiService.get(

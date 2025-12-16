@@ -17,10 +17,11 @@ export default function TransactionPage() {
     const [totalPages, setTotalPages] = useState(1);
     const [stats, setStats] = useState({ total_expense: 0, count: 0});
     const [modal, setModal] = useState<ModalProps | null>(null);
+    const [filterType, setFilterType] = useState<"income" | "expense" | undefined>(undefined);
 
     const loadTransaction = async () => {
         try {
-            const res = await fetchTransaction(page, limit, search);
+            const res = await fetchTransaction(page, limit, search, filterType);
             setTransaction(res.data);
             setTotalPages(res.pagination.totalPages);
         } catch (error) {
@@ -51,7 +52,7 @@ export default function TransactionPage() {
     useEffect(() => {
         loadTransaction();
         loadStats();
-    }, [page, search, limit]);
+    }, [page, search, limit, filterType]);
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(e.target.value);
@@ -71,7 +72,7 @@ export default function TransactionPage() {
                         onOk: () => setModal(null)
                     });
 
-                    const res = await fetchTransaction(page, limit, search);
+                    const res = await fetchTransaction(page, limit, search, filterType);
                     setTransaction(res.data);
                     setTotalPages(res.pagination.totalPages);
                 } catch (error) {
@@ -96,25 +97,70 @@ export default function TransactionPage() {
         <TransactionCard title="Jumlah Transaksi Hari Ini" value={stats.count || 0} />
       </div>
 
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <div className="relative w-full sm:max-w-xs">
-          <FaSearch className="absolute top-2.5 left-3 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Cari Transaksi..."
-            value={search}
-            onChange={handleSearch}
-            className="pl-10 pr-4 py-2 border rounded-md w-full text-sm"
-          />
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+          <div className="relative w-full sm:max-w-xs">
+            <FaSearch className="absolute top-2.5 left-3 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Cari Transaksi..."
+              value={search}
+              onChange={handleSearch}
+              className="pl-10 pr-4 py-2 border rounded-md w-full text-sm"
+            />
+          </div>
+
+          <Link
+            href="/dashboard/transaction/create"
+            className="bg-indigo-600 text-white px-4 py-2 rounded-md flex 
+            items-center justify-center gap-2 hover:bg-indigo-700 w-full sm:w-fit"
+          >
+              <FaPlus /> Buat Transaksi
+          </Link>
         </div>
 
-        <Link
-          href="/dashboard/transaction/create"
-          className="bg-indigo-600 text-white px-4 py-2 rounded-md flex 
-          items-center justify-center gap-2 hover:bg-indigo-700 w-full sm:w-fit"
-        >
-            <FaPlus /> Buat Transaksi
-        </Link>
+        {/* Filter Type Buttons */}
+        <div className="flex gap-2">
+          <button
+            onClick={() => {
+              setFilterType(undefined);
+              setPage(1);
+            }}
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+              filterType === undefined
+                ? "bg-indigo-600 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
+          >
+            Semua
+          </button>
+          <button
+            onClick={() => {
+              setFilterType("income");
+              setPage(1);
+            }}
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+              filterType === "income"
+                ? "bg-green-600 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
+          >
+            Pemasukan
+          </button>
+          <button
+            onClick={() => {
+              setFilterType("expense");
+              setPage(1);
+            }}
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+              filterType === "expense"
+                ? "bg-red-600 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
+          >
+            Pengeluaran
+          </button>
+        </div>
       </div>
 
       <div className="bg-white rounded-lg shadow overflow-x-auto">

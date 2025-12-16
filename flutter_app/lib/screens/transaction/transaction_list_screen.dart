@@ -17,6 +17,7 @@ class TransactionListScreen extends StatefulWidget {
 class _TransactionListScreenState extends State<TransactionListScreen> {
   final _searchController = TextEditingController();
   String _searchQuery = '';
+  String? _filterType; // 'income', 'expense', or null for all
 
   @override
   void initState() {
@@ -26,7 +27,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
 
   Future<void> _loadTransactions() async {
     final provider = Provider.of<TransactionProvider>(context, listen: false);
-    await provider.fetchTransactions(search: _searchQuery);
+    await provider.fetchTransactions(search: _searchQuery, type: _filterType);
   }
 
   @override
@@ -87,31 +88,88 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                labelText: 'Cari transaksi',
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: _searchQuery.isNotEmpty
-                    ? IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          _searchController.clear();
-                          setState(() {
-                            _searchQuery = '';
-                          });
-                          _loadTransactions();
+            child: Column(
+              children: [
+                TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    labelText: 'Cari transaksi',
+                    prefixIcon: const Icon(Icons.search),
+                    suffixIcon: _searchQuery.isNotEmpty
+                        ? IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              _searchController.clear();
+                              setState(() {
+                                _searchQuery = '';
+                              });
+                              _loadTransactions();
+                            },
+                          )
+                        : null,
+                    border: const OutlineInputBorder(),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _searchQuery = value;
+                    });
+                  },
+                  onSubmitted: (_) => _loadTransactions(),
+                ),
+                const SizedBox(height: 12),
+                // Filter Type Buttons
+                Row(
+                  children: [
+                    Expanded(
+                      child: FilterChip(
+                        label: const Text('Semua'),
+                        selected: _filterType == null,
+                        onSelected: (selected) {
+                          if (selected) {
+                            setState(() {
+                              _filterType = null;
+                            });
+                            _loadTransactions();
+                          }
                         },
-                      )
-                    : null,
-                border: const OutlineInputBorder(),
-              ),
-              onChanged: (value) {
-                setState(() {
-                  _searchQuery = value;
-                });
-              },
-              onSubmitted: (_) => _loadTransactions(),
+                        selectedColor: Colors.blue.withOpacity(0.3),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: FilterChip(
+                        label: const Text('Pemasukan'),
+                        selected: _filterType == 'income',
+                        onSelected: (selected) {
+                          if (selected) {
+                            setState(() {
+                              _filterType = 'income';
+                            });
+                            _loadTransactions();
+                          }
+                        },
+                        selectedColor: Colors.green.withOpacity(0.3),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: FilterChip(
+                        label: const Text('Pengeluaran'),
+                        selected: _filterType == 'expense',
+                        onSelected: (selected) {
+                          if (selected) {
+                            setState(() {
+                              _filterType = 'expense';
+                            });
+                            _loadTransactions();
+                          }
+                        },
+                        selectedColor: Colors.red.withOpacity(0.3),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
           Expanded(

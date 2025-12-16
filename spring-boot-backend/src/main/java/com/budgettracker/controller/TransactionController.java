@@ -42,9 +42,10 @@ public class TransactionController {
     public ResponseEntity<Map<String, Object>> getAll(
             @Parameter(description = "Nomor halaman (default: 1)") @RequestParam(defaultValue = "1") Integer page,
             @Parameter(description = "Jumlah data per halaman (default: 10)") @RequestParam(defaultValue = "10") Integer limit,
-            @Parameter(description = "Keyword untuk search (opsional)") @RequestParam(required = false) String search) {
+            @Parameter(description = "Keyword untuk search (opsional)") @RequestParam(required = false) String search,
+            @Parameter(description = "Filter by type: 'income' atau 'expense' (opsional)") @RequestParam(required = false) String type) {
         Integer userId = SecurityUtil.getCurrentUserId();
-        PagedResponse<TransactionResponse> response = transactionService.getAllByUser(userId, page, limit, search);
+        PagedResponse<TransactionResponse> response = transactionService.getAllByUser(userId, page, limit, search, type);
         
         // Match Express.js response structure: {success, message, data, pagination}
         Map<String, Object> result = new HashMap<>();

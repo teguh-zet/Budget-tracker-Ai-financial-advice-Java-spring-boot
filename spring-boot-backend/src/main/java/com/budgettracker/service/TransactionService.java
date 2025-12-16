@@ -7,7 +7,7 @@ import com.budgettracker.dto.response.*;
 import java.util.List;
 
 public interface TransactionService {
-    PagedResponse<TransactionResponse> getAllByUser(Integer userId, Integer page, Integer limit, String search);
+    PagedResponse<TransactionResponse> getAllByUser(Integer userId, Integer page, Integer limit, String search, String type);
     TransactionResponse getById(Integer id);
     TransactionResponse create(Integer userId, CreateTransactionRequest request);
     TransactionResponse update(Integer userId, Integer id, UpdateTransactionRequest request);
