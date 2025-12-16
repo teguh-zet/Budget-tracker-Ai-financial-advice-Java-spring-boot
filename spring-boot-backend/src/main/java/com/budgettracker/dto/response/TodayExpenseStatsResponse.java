@@ -1,0 +1,18 @@
+package com.budgettracker.dto.response;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class TodayExpenseStatsResponse {
+    @JsonProperty("total_expense")
+    private Integer totalExpense;
+    private Integer count;
+}
+

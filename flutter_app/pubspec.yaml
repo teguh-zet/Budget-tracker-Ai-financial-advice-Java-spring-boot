@@ -1,0 +1,64 @@
+name: budget_tracker
+description: Aplikasi Budget Tracker dengan Flutter
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # State Management
+  provider: ^6.1.1
+  
+  # HTTP Client
+  http: ^1.1.0
+  dio: ^5.4.0
+  
+  # Local Storage
+  shared_preferences: ^2.2.2
+  
+  # UI Components
+  flutter_svg: ^2.0.9
+  fl_chart: ^0.66.0
+  
+  # Form Validation
+  flutter_form_builder: ^9.1.1
+  
+  
+  # Date Picker
+  flutter_datetime_picker_plus: ^2.1.0
+  
+  # File Picker & Image Picker
+  image_picker: ^1.0.7
+  # Upgrade to fix inline implementation warning on desktop platforms
+  file_picker: ^8.0.2
+  path_provider: ^2.1.2
+  
+  # PDF Viewer
+  pdf: ^3.10.7
+  printing: ^5.12.0
+  
+  # Icons
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+dependency_overrides:
+  intl: 0.20.2
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+
+
+
+

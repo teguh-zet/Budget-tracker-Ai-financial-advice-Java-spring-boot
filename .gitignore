@@ -1,0 +1,130 @@
+# Environment files
+.env
+.env.local
+.env.production
+.env.development
+.env.*.local
+application.properties
+application-secret.properties
+
+# Dependencies
+node_modules/
+*/node_modules/
+**/node_modules/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+
+# Build outputs
+.next/
+dist/
+build/
+target/
+**/target/
+**/build/
+**/.next/
+**/dist/
+*.class
+*.jar
+*.war
+*.ear
+
+# Flutter build outputs
+flutter_app/build/
+flutter_app/android/app/debug/
+flutter_app/android/app/profile/
+flutter_app/android/app/release/
+flutter_app/ios/Flutter/.last_build_id
+flutter_app/ios/Flutter/Flutter.framework/
+flutter_app/ios/Flutter/Flutter.podspec
+flutter_app/ios/ServiceDefinitions.json
+flutter_app/ios/Runner/GeneratedPluginRegistrant.*
+
+# Log files
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+bin/
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+
+# Uploads/User Content (tidak perlu di-version control)
+spring-boot-backend/uploads/
+**/uploads/
+**/profiles/
+
+# SSL Certificates
+*.pem
+ca.pem
+*.key
+*.crt
+
+# Coverage & Testing
+coverage/
+.nyc_output/
+test-results/
+junit.xml
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*~
+
+# Maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle (Android)
+.gradle/
+**/gradle/
+**/gradlew
+**/gradlew.bat
+**/local.properties
+**/.cxx/
+
+*.md
+!README.md
+!**/README.md
+

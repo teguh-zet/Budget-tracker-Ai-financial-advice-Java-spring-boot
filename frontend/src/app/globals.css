@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+/* Font Variables */
+:root {
+  --font-sans: var(--font-poppins);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Apply theme */
+body {
+  font-family: var(--font-sans), sans-serif;
+}
